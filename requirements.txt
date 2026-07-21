@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+pydantic-settings
+jinja2
+python-multipart
+qrcode[pil]
+openai
+python-dotenv
+aiofiles
+passlib[bcrypt]
+python-jose[cryptography]
+email-validator

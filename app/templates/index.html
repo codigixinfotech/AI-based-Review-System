@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Review QR Automation - Home{% endblock %}
+{% block content %}
+<div class="card text-center space-y-8 p-12">
+    <div class="mx-auto w-24 h-24 bg-indigo-100 rounded-full flex items-center justify-center text-5xl">
+        ⭐
+    </div>
+    <div class="space-y-4">
+        <h2 class="text-3xl font-extrabold text-indigo-900">Welcome to ReviewQR</h2>
+        <p class="text-lg text-gray-600">The easiest way to collect, generate, and publish professional customer reviews.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-8">
+        <a href="/admin/panel" class="card bg-indigo-50 border-indigo-100 hover:bg-indigo-100 transition-colors p-6 text-center group">
+            <h3 class=" text-indigo-700 text-lg mb-2">Admin Dashboard</h3>
+            <p class="text-sm text-gray-600">Generate QR codes and manage services.</p>
+        </a>
+        <div class="card bg-green-50 border-green-100 p-6 text-center opacity-75 grayscale cursor-not-allowed">
+            <h3 class=" text-green-700 text-lg mb-2">Client Flow</h3>
+            <p class="text-sm text-gray-600">Scan a QR code to start a review.</p>
+        </div>
+    </div>
+    <p class="text-xs text-gray-400 italic">Please note: The client flow requires a valid token from a generated QR code.</p>
+</div>
+{% endblock %}
