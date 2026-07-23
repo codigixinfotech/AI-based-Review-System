@@ -85,6 +85,15 @@ def create_service(service: schemas.ServiceCreate, db: Session = Depends(databas
 def list_services(db: Session = Depends(database.get_db)):
     return db.query(models.Service).all()
 
+@router.delete("/services/{service_id}")
+def delete_service(service_id: int, db: Session = Depends(database.get_db)):
+    db_service = db.query(models.Service).filter(models.Service.id == service_id).first()
+    if not db_service:
+        raise HTTPException(status_code=404, detail="Service not found")
+    db.delete(db_service)
+    db.commit()
+    return {"message": "Service deleted successfully"}
+
 @router.get("/settings/{key}", response_model=schemas.SettingResponse)
 def get_setting(key: str, db: Session = Depends(database.get_db)):
     setting = db.query(models.Setting).filter(models.Setting.key == key).first()

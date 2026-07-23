@@ -11,7 +11,8 @@ import openai
 from dotenv import load_dotenv
 
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+api_key = os.getenv("OPENAI_API_KEY")
+base_url = os.getenv("OPENAI_BASE_URL") # Set this to your provider's URL, e.g. https://openrouter.ai/api/v1
 
 from PIL import Image, ImageDraw, ImageFont
 
@@ -74,7 +75,19 @@ class CardService:
             # Using standard system fonts usually available on Windows
             font_path_bold = "arialbd.ttf"
             font_path_reg = "arial.ttf"
-            title_font = ImageFont.truetype(font_path_bold, 72)
+            
+            title_font_size = 72
+            title_font = ImageFont.truetype(font_path_bold, title_font_size)
+            
+            # Dynamically reduce title font size if it exceeds the card width
+            while True:
+                bbox = draw.textbbox((0, 0), company_name, font=title_font)
+                text_width = bbox[2] - bbox[0]
+                if text_width <= width - 80 or title_font_size <= 24:
+                    break
+                title_font_size -= 4
+                title_font = ImageFont.truetype(font_path_bold, title_font_size)
+
             subtitle_font = ImageFont.truetype(font_path_reg, 42)
             header_font = ImageFont.truetype(font_path_bold, 64)
             footer_text_font = ImageFont.truetype(font_path_reg, 42)
@@ -93,19 +106,22 @@ class CardService:
         # 5. QR Code Area (White Rounded Box with Shadow Effect)
         qr_box_size = 650
         qr_box_x = (width - qr_box_size) // 2
-        qr_box_y = 580
+        qr_box_y = 570
         
         # Draw soft shadow (simulated with grey rectangles)
         for i in range(1, 15):
-            alpha = 15 - i
             draw.rounded_rectangle([qr_box_x-i, qr_box_y-i, qr_box_x+qr_box_size+i, qr_box_y+qr_box_size+i], radius=60, outline=(220+i, 220+i, 220+i), width=2)
 
         draw.rounded_rectangle([qr_box_x, qr_box_y, qr_box_x+qr_box_size, qr_box_y+qr_box_size], radius=60, fill="white")
         
         # QR Code itself
         qr_img = QRService.generate_qr_img(token, base_url)
-        qr_img = qr_img.resize((500, 500))
-        card.paste(qr_img, (qr_box_x + (qr_box_size - 500)//2, qr_box_y + (qr_box_size - 500)//2))
+        # Use a larger size for the QR so it feels better aligned and balanced
+        qr_size = 560
+        # Use Image.LANCZOS for high quality down/upsampling if available, fallback to BICUBIC
+        resample_filter = getattr(Image, 'LANCZOS', getattr(Image, 'BICUBIC', 3))
+        qr_img = qr_img.resize((qr_size, qr_size), resample_filter)
+        card.paste(qr_img, (qr_box_x + (qr_box_size - qr_size)//2, qr_box_y + (qr_box_size - qr_size)//2))
         
         # 6. Bottom Message
         draw.text((width//2, 1320), "Your feedback helps us improve", fill="white", font=footer_text_font, anchor="mm")
@@ -133,30 +149,75 @@ class CardService:
 
 class AIService:
     @staticmethod
-    def generate_review_text(service_name: str, rating: str) -> str:
+    def generate_review_text(business_name: str, service_name: str, rating: str) -> str:
+        import random
         # service_name can be multiple services separated by commas
         services_desc = service_name if "," not in service_name else f"various services including {service_name}"
-        prompt = f"Write a grammatically correct, formal, and professional customer review for {services_desc}. The rating provided is {rating}. Keep it concise and natural, around 2-3 sentences."
+        b_name = business_name if business_name and business_name != "the business" else "Codigix Infotech"
         
-        # Rule-based fallback
-        fallbacks = {
-            "Excellent": f"I had an exceptional experience with the {service_name} I received. The team was professional and exceeded my expectations. Highly recommended!",
-            "Good": f"I'm very satisfied with the {service_name} services. Everything was handled well and the results are great.",
-            "Poor": f"Unfortunately, the {service_name} didn't quite meet my expectations. There's room for improvement in communication and delivery."
+        if rating in ["Excellent", "Good"]:
+            prompt = (
+                f"You are a delighted customer writing a {rating} Google review for {b_name}. "
+                "Write a completely unique, highly engaging, and natural-sounding review (3-4 sentences). "
+                f"CRITICAL: You MUST explicitly mention the business name '{b_name}' in your review. "
+                f"CRITICAL: You MUST highlight and praise the specific services received: '{services_desc}'. "
+                "Naturally weave in high-volume, catchy SEO keywords related to the specific services to boost local search rankings (e.g., 'best quality', 'highly professional', 'top-rated', and industry-specific terms). "
+                "Ensure the review is completely different every time by varying the sentence structure, opening phrases, and specific compliments. "
+                "Sound like a genuine, enthusiastic human client who had an amazing experience."
+            )
+        else:
+            prompt = (
+                f"Write a realistic, constructive customer review for {b_name} regarding their {services_desc}. The rating provided is {rating}. "
+                f"CRITICAL: Explicitly mention the business name '{b_name}'. "
+                "Make it sound natural, distinct, and point out areas for improvement without being overly aggressive (2-3 sentences)."
+            )
+        
+        # Dynamic fallbacks in case the OpenAI API key is missing or invalid
+        fallbacks_excellent = [
+            f"I had an exceptional experience with {b_name} for their {service_name}. The team was highly professional, delivered top-quality results, and exceeded my expectations. If you're looking for the best service, I highly recommend {b_name}!",
+            f"Absolutely fantastic {service_name} services from {b_name}! They really took the time to understand my needs and delivered outstanding quality. Five stars all the way.",
+            f"If you need {service_name}, look no further than {b_name}. Their expertise and attention to detail are unmatched. I'll definitely be returning for future projects."
+        ]
+        
+        fallbacks_good = [
+            f"I'm very satisfied with the {service_name} I received from {b_name}. The process was smooth, and the results are great. Solid service overall.",
+            f"Good experience with {b_name} for their {service_name}. The team was polite and got the job done efficiently. Would recommend.",
+            f"They did a great job on the {service_name}. A few minor hiccups, but overall a very positive experience and good quality work from {b_name}."
+        ]
+        
+        fallbacks_poor = [
+            f"Unfortunately, the {service_name} from {b_name} didn't quite meet my expectations. There's room for improvement in communication and delivery.",
+            f"Not the best experience with the {service_name} at {b_name}. I felt that the quality could have been much better given the price.",
+            f"I was somewhat disappointed with the {service_name} provided by {b_name}. Hoping they can improve their processes in the future."
+        ]
+        
+        fallback_dict = {
+            "Excellent": fallbacks_excellent,
+            "Good": fallbacks_good,
+            "Poor": fallbacks_poor
         }
         
-        if not openai.api_key:
-            return fallbacks.get(rating, "Thank you for the service.")
+        selected_fallback = random.choice(fallback_dict.get(rating, [f"Thank you for the {service_name} from {b_name}."]))
+
+        if not api_key or api_key == "your_openai_api_key_here":
+            return selected_fallback
             
         try:
-            response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
+            client = openai.OpenAI(
+                api_key=api_key,
+                base_url=base_url
+            )
+            model_name = os.getenv("AI_MODEL", "Qwen/Qwen2.5-7B-Instruct")
+            response = client.chat.completions.create(
+                model=model_name,
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=100
+                max_tokens=150,
+                temperature=0.8 # Higher temperature for more variety
             )
             return response.choices[0].message.content.strip()
-        except Exception:
-            return fallbacks.get(rating, "Thank you for the service.")
+        except Exception as e:
+            print(f"OpenAI Error: {e}")
+            return selected_fallback
 
 class DBService:
     @staticmethod

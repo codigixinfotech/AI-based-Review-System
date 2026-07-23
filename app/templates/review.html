@@ -1,97 +1,155 @@
 {% extends "base.html" %}
 {% block title %}Submit Your Review{% endblock %}
 {% block content %}
-<div id="review-form-container" class="card space-y-6">
-    <div class="text-center">
-        <h1 id="client-name-display" class="text-3xl font-black text-indigo-900 tracking-tight">Review QR Automation</h1>
-        <p id="client-industry-display" class="text-[10px] font-black text-indigo-400 uppercase tracking-[0.3em] mt-1">Feedback Portal</p>
-        <div class="w-12 h-1 bg-indigo-100 mx-auto my-6 rounded-full"></div>
-        <h2 class="text-xl font-black text-gray-700 uppercase tracking-tight">How was your experience?</h2>
-        <p class="text-xs text-gray-400 font-medium mt-2">Select the services you received and give us a rating.</p>
+<div id="review-form-container"
+    class="card space-y-8 max-w-2xl mx-auto shadow-2xl shadow-primary-500/10 border-white/50 backdrop-blur-md relative overflow-hidden">
+    <div class="absolute -top-24 -right-24 w-48 h-48 bg-primary-200/50 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-200/50 rounded-full blur-3xl"></div>
+
+    <div class="text-center relative z-10">
+        <h1 id="client-name-display"
+            class="text-4xl  text-transparent bg-clip-text bg-gradient-to-r from-slate-900 to-slate-700  pb-1">
+            ReviewQR</h1>
+        <p id="client-industry-display" class="text-xs font-bold text-primary-500   mt-2">
+            Feedback Portal</p>
+        <div class="w-16 h-1.5 bg-gradient-to-r from-primary-400 to-purple-400 mx-auto my-6 rounded-full shadow-sm">
+        </div>
+        <h2 class="text-2xl font-bold text-slate-800 ">How was your experience?</h2>
+        <p class="text-sm text-slate-500 font-medium text-xs mt-3">Select the services you received and give us a rating
+            to
+            generate your review.</p>
     </div>
 
-    <form id="review-form" class="space-y-6">
-        <div>
-            <label class="block text-sm  text-gray-700 mb-3 uppercase tracking-wider">Services Received</label>
-            <div id="services-grid" class="grid grid-cols-2 gap-3">
+    <form id="review-form" class="space-y-8 relative z-10">
+        <div class="bg-white/50 p-6 rounded border border-white">
+            <label class="block text-xs font-bold text-slate-700 mb-4  tracking-wider">Services
+                Received</label>
+            <div id="services-grid" class="grid grid-cols-2 gap-2">
                 <!-- Service tabs will be injected here -->
-                <div class="col-span-2 py-8 text-center text-gray-400 animate-pulse text-sm">Loading services...</div>
+                <div class="col-span-2 py-8 text-center text-slate-400 animate-pulse text-sm font-medium">Loading
+                    services...</div>
             </div>
             <input type="hidden" name="service_ids" id="service-ids-input" required>
         </div>
 
-        <div class="pt-2">
-            <label class="block text-sm  text-gray-700 mb-3 uppercase tracking-wider">Your Overall Rating</label>
-            <div class="grid grid-cols-3 gap-3">
-                <button type="button" onclick="setRating('Poor')" class="rating-btn border-2 border-gray-100 p-4 rounded-2xl flex flex-col items-center hover:bg-red-50 hover:border-red-200 transition-all group" data-rating="Poor">
-                    <span class="text-3xl group-hover:scale-110 transition-transform">😞</span>
-                    <span class="text-[10px] font-black uppercase mt-2 text-gray-400 group-hover:text-red-600">Poor</span>
+        <div class="bg-white/50 p-6 rounded border border-white">
+            <label class="block text-xs font-bold text-slate-700 mb-4  tracking-wider">Your Overall
+                Rating</label>
+            <div class="grid grid-cols-3 gap-4">
+                <button type="button" onclick="setRating('Poor')"
+                    class="rating-btn border border-slate-200 bg-white p-5 rounded flex flex-col items-center hover:bg-rose-50 hover:border-rose-200 hover:shadow-md transition-all duration-300 group"
+                    data-rating="Poor">
+                    <span
+                        class="text-4xl group-hover:scale-110 transition-transform duration-300 drop-shadow-sm group-hover:drop-shadow-md">😞</span>
+                    <span
+                        class="text-xs font-bold  mt-3 text-slate-400 group-hover:text-rose-600 transition-colors">Poor</span>
                 </button>
-                <button type="button" onclick="setRating('Good')" class="rating-btn border-2 border-gray-100 p-4 rounded-2xl flex flex-col items-center hover:bg-yellow-50 hover:border-yellow-200 transition-all group" data-rating="Good">
-                    <span class="text-3xl group-hover:scale-110 transition-transform">😊</span>
-                    <span class="text-[10px] font-black uppercase mt-2 text-gray-400 group-hover:text-yellow-600">Good</span>
+                <button type="button" onclick="setRating('Good')"
+                    class="rating-btn border border-slate-200 bg-white p-5 rounded flex flex-col items-center hover:bg-amber-50 hover:border-amber-200 hover:shadow-md transition-all duration-300 group"
+                    data-rating="Good">
+                    <span
+                        class="text-4xl group-hover:scale-110 transition-transform duration-300 drop-shadow-sm group-hover:drop-shadow-md">😊</span>
+                    <span
+                        class="text-xs font-bold  mt-3 text-slate-400 group-hover:text-amber-600 transition-colors">Good</span>
                 </button>
-                <button type="button" onclick="setRating('Excellent')" class="rating-btn border-2 border-gray-100 p-4 rounded-2xl flex flex-col items-center hover:bg-green-50 hover:border-green-200 transition-all group" data-rating="Excellent">
-                    <span class="text-3xl group-hover:scale-110 transition-transform">🤩</span>
-                    <span class="text-[10px] font-black uppercase mt-2 text-gray-400 group-hover:text-green-600">Excellent</span>
+                <button type="button" onclick="setRating('Excellent')"
+                    class="rating-btn border border-slate-200 bg-white p-5 rounded flex flex-col items-center hover:bg-emerald-50 hover:border-emerald-200 hover:shadow-md transition-all duration-300 group"
+                    data-rating="Excellent">
+                    <span
+                        class="text-4xl group-hover:scale-110 transition-transform duration-300 drop-shadow-sm group-hover:drop-shadow-md">🤩</span>
+                    <span
+                        class="text-xs font-bold  mt-3 text-slate-400 group-hover:text-emerald-600 transition-colors">Excellent</span>
                 </button>
             </div>
             <input type="hidden" name="rating" id="rating-input" required>
         </div>
 
-        <div class="pt-2">
-            <label class="block text-sm  text-gray-700 mb-2 uppercase tracking-wider">Email (Optional)</label>
-            <input type="email" name="email" id="email-input" class="w-full border-2 border-gray-100 p-4 rounded-2xl focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all placeholder:text-gray-300" placeholder="your@email.com">
-            <p class="text-[10px] text-gray-400 mt-2 px-1">Used only to ensure one review per client every 30 days.</p>
-        </div>
 
-        <button type="submit" id="submit-btn" class="w-full bg-indigo-600 text-white font-black py-5 rounded-2xl shadow-indigo-200 shadow-xl hover:bg-indigo-700 hover:-translate-y-1 transition-all active:scale-95 mt-4 uppercase tracking-widest">
-            Generate My Review ✨
+
+        <button type="submit" id="submit-btn"
+            class="btn-primary w-full py-5 text-base   font-bold shadow-primary-500/30 flex items-center justify-center gap-2">
+            Generate My Review <span class="text-xl">✨</span>
         </button>
     </form>
 </div>
 
 <!-- AI Review Confirmation Section -->
-<div id="confirmation-container" class="card space-y-6 hidden animate-fade-in">
-    <div class="text-center">
-        <div class="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl">✓</div>
-        <h2 class="text-2xl font-black text-indigo-900">Review Generated!</h2>
-        <p class="text-gray-500 font-medium px-4">We've crafted a professional review for you based on your selections.</p>
+<div id="confirmation-container"
+    class="card space-y-8 max-w-2xl mx-auto shadow-2xl shadow-emerald-500/10 border-white/50 backdrop-blur-md hidden animate-fade-in relative overflow-hidden">
+    <div class="absolute -top-24 -right-24 w-48 h-48 bg-emerald-200/50 rounded-full blur-3xl"></div>
+    <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-blue-200/50 rounded-full blur-3xl"></div>
+
+    <div class="text-center relative z-10">
+        <div
+            class="w-20 h-20 bg-gradient-to-tr from-emerald-400 to-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-4xl shadow-lg shadow-emerald-500/30 ring-8 ring-emerald-50">
+            ✓</div>
+        <h2 class="text-xl  text-slate-900 ">Review Generated!</h2>
+        <p class="text-slate-600 font-medium px-4 mt-3 text-lg">We've crafted a professional review based on your
+            feedback.</p>
     </div>
 
-    <div class="bg-indigo-50/50 p-6 rounded-3xl border-2 border-indigo-100 italic text-gray-700 relative group">
-        <p id="ai-review-text" class="text-lg leading-relaxed"></p>
-        <button onclick="copyToClipboard()" class="absolute -top-3 -right-3 bg-white border-2 border-indigo-100 p-3 rounded-full shadow-lg hover:bg-indigo-600 hover:text-white transition-all transform active:scale-90" title="Copy to clipboard">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+    <div class="bg-white/80 p-2 rounded border border-slate-100 italic text-slate-700 relative group shadow-sm z-10">
+        <div class="absolute -left-2 top-2 text-4xl text-primary-200 font-serif">"</div>
+        <p id="ai-review-text" class="text-lg leading-relaxed relative z-10 font-medium"></p>
+        <button onclick="copyToClipboard()"
+            class="absolute -top-4 -right-4 bg-white border border-slate-200 p-2.5 rounded-full shadow-lg hover:bg-primary-600 hover:text-white hover:border-primary-600 transition-all transform active:scale-90 group-hover:scale-110 z-20"
+            title="Copy to clipboard">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                </path>
+            </svg>
         </button>
     </div>
 
-    <div class="space-y-4 pt-4 px-2">
+    <div class="space-y-6 pt-4 px-2 relative z-10">
         <div class="text-center space-y-2">
-            <p class="text-xs  text-gray-400 uppercase tracking-widest">Final Step</p>
-            <p class="text-sm text-gray-600">Click below to copy your review and paste it onto our Google profile.</p>
+            <p class="text-xs font-bold text-slate-400  ">Final Step</p>
+            <p class="text-sm font-medium text-slate-600">Click below to copy your review and paste it onto Google.</p>
         </div>
-        
-        <a id="google-link" href="#" target="_blank" onclick="copyToClipboard()" class="block w-full text-center bg-[#4285F4] text-white font-black py-5 rounded-2xl shadow-blue-200 shadow-xl hover:bg-blue-600 transition-all flex items-center justify-center space-x-3 uppercase tracking-widest">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.48 10.92v3.28h4.74c-.18 1.1-.9 2.02-1.84 2.66v2.12h2.98c1.74-1.6 2.74-3.96 2.74-6.78 0-.54-.04-1.06-.12-1.56H12.48zM5.52 14.28c-.24-.72-.36-1.48-.36-2.28s.12-1.56.36-2.28V7.6H2.4c-.88 1.76-1.38 3.74-1.38 5.68s.5 3.92 1.38 5.68l3.12-2.68zm6.96 5.8c1.88 0 3.46-.62 4.62-1.68l-2.98-2.12c-.52.34-1.18.54-1.64.54-1.84 0-3.4-1.24-3.96-2.92l-3.12 2.68c1.16 2.36 3.6 3.92 6.44 3.92zm-6.44-15.12l3.12 2.68c.56-1.68 2.12-2.92 3.96-2.92 1.04 0 1.98.38 2.72 1l2.04-2.04C15.94 2.48 14.36 2 12.48 2c-2.84 0-5.28 1.56-6.44 3.92z"/></svg>
+
+        <a id="google-link" href="#" target="_blank" onclick="copyToClipboard()"
+            class="block w-full text-center bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold py-5 rounded shadow-lg shadow-blue-500/30 hover:shadow-xl hover:from-blue-600 hover:to-blue-700 transition-all flex items-center justify-center space-x-3   active:scale-95">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                    d="M12.48 10.92v3.28h4.74c-.18 1.1-.9 2.02-1.84 2.66v2.12h2.98c1.74-1.6 2.74-3.96 2.74-6.78 0-.54-.04-1.06-.12-1.56H12.48zM5.52 14.28c-.24-.72-.36-1.48-.36-2.28s.12-1.56.36-2.28V7.6H2.4c-.88 1.76-1.38 3.74-1.38 5.68s.5 3.92 1.38 5.68l3.12-2.68zm6.96 5.8c1.88 0 3.46-.62 4.62-1.68l-2.98-2.12c-.52.34-1.18.54-1.64.54-1.84 0-3.4-1.24-3.96-2.92l-3.12 2.68c1.16 2.36 3.6 3.92 6.44 3.92zm-6.44-15.12l3.12 2.68c.56-1.68 2.12-2.92 3.96-2.92 1.04 0 1.98.38 2.72 1l2.04-2.04C15.94 2.48 14.36 2 12.48 2c-2.84 0-5.28 1.56-6.44 3.92z" />
+            </svg>
             <span>Post on Google</span>
         </a>
-        <a href="/" class="block text-center text-[10px]  text-gray-400 hover:text-indigo-600 transition-colors uppercase tracking-widest py-2">Skip for now</a>
+        <a href="/"
+            class="block text-center text-xs font-bold text-slate-400 hover:text-primary-600 transition-colors   py-2">Skip
+            for now</a>
     </div>
 </div>
 
-<style>
+<style type="text/tailwindcss">
     .service-tab.selected {
-        @apply border-indigo-600 bg-indigo-50 text-indigo-700 ring-2 ring-indigo-500/20 shadow-sm;
+        @apply border-primary-500 bg-primary-50 text-primary-700 ring-2 ring-primary-500/20 shadow-sm font-bold;
     }
+
     .rating-btn.selected {
-        @apply border-indigo-600 bg-indigo-50 ring-4 ring-indigo-500/10;
+        @apply border-primary-500 bg-primary-50 ring-4 ring-primary-500/10 shadow-md;
     }
+
     .rating-btn.selected span:last-child {
-        @apply text-indigo-600;
+        @apply text-primary-600;
     }
-    .animate-fade-in { animation: fadeIn 0.4s ease-out; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .animate-fade-in {
+        animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
 </style>
 
 <script>
@@ -118,7 +176,7 @@
             grid.innerHTML = '';
             data.forEach(s => {
                 const tab = document.createElement('div');
-                tab.className = 'service-tab border-2 border-gray-100 p-3 rounded-xl cursor-pointer text-center text-xs  text-gray-500 hover:border-indigo-200 transition-all active:scale-95';
+                tab.className = 'service-tab border-2 border-gray-100 p-2 rounded cursor-pointer text-center text-xs  text-gray-500 hover:border-indigo-200 transition-all active:scale-95';
                 tab.textContent = s.name;
                 tab.dataset.id = s.id;
                 tab.onclick = () => toggleService(tab, s.id);
@@ -150,7 +208,7 @@
 
     document.getElementById('review-form').onsubmit = async (e) => {
         e.preventDefault();
-        
+
         if (selectedServices.size === 0) {
             alert("Please select at least one service.");
             return;
@@ -168,7 +226,7 @@
             token: token,
             service_ids: Array.from(selectedServices),
             rating: currentRating,
-            email: document.getElementById('email-input').value || null
+            email: null
         };
 
         try {
@@ -178,7 +236,7 @@
                 body: JSON.stringify(data)
             });
             const result = await res.json();
-            
+
             if (res.ok) {
                 document.getElementById('review-form-container').classList.add('hidden');
                 document.getElementById('confirmation-container').classList.remove('hidden');
@@ -201,9 +259,47 @@
 
     function copyToClipboard() {
         const text = document.getElementById('ai-review-text').innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("Review text copied! Now just paste it on Google.");
-        });
+        
+        // Fallback for HTTP (navigator.clipboard requires HTTPS unless localhost)
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text).then(showCopyToast).catch(fallbackCopyTextToClipboard);
+        } else {
+            fallbackCopyTextToClipboard(text);
+        }
+    }
+
+    function fallbackCopyTextToClipboard(text) {
+        var textArea = document.createElement("textarea");
+        textArea.value = text;
+        
+        // Avoid scrolling to bottom
+        textArea.style.top = "0";
+        textArea.style.left = "0";
+        textArea.style.position = "fixed";
+
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+
+        try {
+            var successful = document.execCommand('copy');
+            if (successful) showCopyToast();
+        } catch (err) {
+            console.error('Fallback: Oops, unable to copy', err);
+            alert("Failed to copy automatically. Please copy the text manually.");
+        }
+
+        document.body.removeChild(textArea);
+    }
+    
+    function showCopyToast() {
+        const btn = document.querySelector('button[title="Copy to clipboard"]');
+        const originalIcon = btn.innerHTML;
+        btn.innerHTML = `<svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
+        setTimeout(() => {
+            btn.innerHTML = originalIcon;
+        }, 2000);
+        // We do not alert here to make it smoother for the user when clicking the Google link
     }
 </script>
 {% endblock %}

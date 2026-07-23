@@ -1,20 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Review QR Automation{% endblock %}</title>
+    <title>{% block title %}ReviewQR Automation{% endblock %}</title>
+
+    <!-- Modern Typography: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@100;300;400;700&family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        barlow: ['Barlow', 'sans-serif'],
-                        roboto: ['Roboto', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        },
+                        glass: 'rgba(255, 255, 255, 0.7)',
+                        glassDark: 'rgba(17, 24, 39, 0.7)',
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -24,10 +55,10 @@
     <meta name="theme-color" content="#4f46e5">
     <link rel="apple-touch-icon" href="/static/icons/icon-192x192.png">
     <script>
-        // Polyfill for crypto.randomUUID in non-secure (HTTP) contexts
+        // Polyfill for crypto.randomUUID
         if (!window.crypto.randomUUID) {
-            window.crypto.randomUUID = function() {
-                return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            window.crypto.randomUUID = function () {
+                return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
                     (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
                 );
             };
@@ -39,29 +70,73 @@
             });
         }
     </script>
-    <style>
-        body { font-family: 'Roboto', sans-serif; font-weight: 100; }
-        h1, h2, h3, h4, h5, h6 { font-family: 'roboto', sans-serif; font-weight: 300 !important; }
-        p, span, div, a, li, input, label { font-family: 'Roboto', sans-serif; font-weight: 300; }
-        .btn-primary { @apply bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors ; }
-        .card { @apply bg-white p-6 rounded-xl shadow-md border border-gray-100; }
+    <style type="text/tailwindcss">
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-primary {
+            @apply bg-gradient-to-r from-primary-600 to-primary-500 text-white font-medium px-6 py-2.5 rounded hover:from-primary-700 hover:to-primary-600 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 active:scale-95;
+        }
+
+        .btn-secondary {
+            @apply bg-white text-primary-600 font-medium px-6 py-2.5 rounded border border-primary-100 hover:bg-primary-50 hover:shadow-md transition-all duration-300 active:scale-95;
+        }
+
+        .card {
+            @apply glass-panel p-2 rounded transition-all duration-300;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 min-h-screen">
-    <nav class="bg-indigo-600 text-white shadow-lg p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl ">ReviewQR</h1>
-            <div class="space-x-4">
-                <a href="/" class="hover:underline">Home</a>
-                <a href="/admin/panel" class="hover:underline">Admin</a>
+
+<body class="text-slate-800 antialiased selection:bg-primary-200 selection:text-primary-900">
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-white/50">
+        <div class="container mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div
+                    class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-md">
+                    QR
+                </div>
+                <h1
+                    class="text-xl font-bold  bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-600">
+                    ReviewQR
+                </h1>
+            </div>
+            <div class="space-x-6 text-sm font-medium">
+                <a href="/" class="text-slate-600 hover:text-primary-600 transition-colors">Home</a>
+                <a href="/admin/panel" class="text-slate-600 hover:text-primary-600 transition-colors">Admin</a>
             </div>
         </div>
     </nav>
-    <main class="container mx-auto p-4">
+
+    <!-- Decorative background elements -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div
+            class="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-primary-300/20 blur-[100px] mix-blend-multiply animate-pulse-slow">
+        </div>
+        <div class="absolute top-[40%] -right-[10%] w-[40%] h-[60%] rounded-full bg-purple-300/20 blur-[100px] mix-blend-multiply animate-pulse-slow"
+            style="animation-delay: 2s;"></div>
+    </div>
+
+    <main class="container mx-auto px-4 pt-28 pb-12 min-h-screen">
         {% block content %}{% endblock %}
     </main>
-    <footer class="text-center p-8 text-gray-500 text-sm">
-        &copy; 2024 Review QR Automation
+
+    <footer class="text-center pb-8 pt-4 text-slate-400 text-sm font-medium">
+        &copy; 2024 ReviewQR Automation &middot; <span
+            class="hover:text-slate-600 cursor-pointer transition-colors">Privacy Policy</span>
     </footer>
 </body>
+
 </html>

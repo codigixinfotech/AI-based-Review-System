@@ -45,7 +45,8 @@ def submit_review(data: schemas.ReviewSubmit, db: Session = Depends(database.get
     service_names = ", ".join([s.name for s in services_list])
     
     # Generate AI review text
-    ai_text = services.AIService.generate_review_text(service_names, data.rating)
+    business_name = req.client_name or "Codigix Infotech"
+    ai_text = services.AIService.generate_review_text(business_name, service_names, data.rating)
     
     # Store review (linking to the first service for DB simplicity, or you could extend models)
     review = services.DBService.submit_review(
