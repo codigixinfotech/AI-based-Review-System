@@ -1,0 +1,304 @@
+{
+    "services": [
+        {
+            "id": 2,
+            "name": "Social Media Marketing"
+        },
+        {
+            "id": 3,
+            "name": "Pay-Per-Click (PPC)"
+        },
+        {
+            "id": 4,
+            "name": "Content Marketing"
+        },
+        {
+            "id": 5,
+            "name": "Email Marketing"
+        },
+        {
+            "id": 6,
+            "name": "Web Development"
+        },
+        {
+            "id": 7,
+            "name": "Graphic Designing"
+        },
+        {
+            "id": 8,
+            "name": "Video Editing"
+        },
+        {
+            "id": 9,
+            "name": "SEO "
+        }
+    ],
+    "review_requests": {
+        "8e583a6b-81de-4dd9-8451-2f5ef0b3cc38": {
+            "token": "8e583a6b-81de-4dd9-8451-2f5ef0b3cc38",
+            "client_name": "codigix infotech",
+            "client_industry": "digital Marketing",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "1,2,4,8",
+            "created_at": "2026-07-23T10:49:55.054582",
+            "scanned_at": null,
+            "is_active": true
+        },
+        "2cbd7870-98ca-400b-a429-cd54e0489348": {
+            "token": "2cbd7870-98ca-400b-a429-cd54e0489348",
+            "client_name": "codigix infotech",
+            "client_industry": "digital Marketing",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "1,2,4,8",
+            "created_at": "2026-07-23T10:50:12.344643",
+            "scanned_at": null,
+            "is_active": true
+        },
+        "ce4967c7-e5a4-407b-87e6-1685b0cae74a": {
+            "token": "ce4967c7-e5a4-407b-87e6-1685b0cae74a",
+            "client_name": "codigix infotech",
+            "client_industry": "digital Marketing",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "1,2,4,8",
+            "created_at": "2026-07-23T10:50:56.442988",
+            "scanned_at": null,
+            "is_active": true
+        },
+        "50466cb7-df25-40bc-8d64-2e1887a47e1c": {
+            "token": "50466cb7-df25-40bc-8d64-2e1887a47e1c",
+            "client_name": "codigix infotech ",
+            "client_industry": "digital marketing",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "1,2,4,5,6,7,8",
+            "created_at": "2026-07-23T11:45:22.639274",
+            "scanned_at": null,
+            "is_active": true
+        },
+        "8f0e8161-d635-4725-9baa-fc092e9c179c": {
+            "token": "8f0e8161-d635-4725-9baa-fc092e9c179c",
+            "client_name": "codigix infotech ",
+            "client_industry": "digital marketing",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "1,2,4,5,6,7,8",
+            "created_at": "2026-07-23T11:47:30.015198",
+            "scanned_at": "2026-07-23T11:47:42.826906",
+            "is_active": true
+        },
+        "fbfbf5a5-08b9-4c76-82b0-6920fde4e5e9": {
+            "token": "fbfbf5a5-08b9-4c76-82b0-6920fde4e5e9",
+            "client_name": "codigix infotech",
+            "client_industry": "digital marketing",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "1",
+            "created_at": "2026-07-23T12:16:18.910233",
+            "scanned_at": "2026-07-23T12:16:34.051011",
+            "is_active": true
+        },
+        "5333210c-5bcb-4c0c-8a39-63311c354bed": {
+            "token": "5333210c-5bcb-4c0c-8a39-63311c354bed",
+            "client_name": "codigix infotech",
+            "client_industry": "digital marketing",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "1",
+            "created_at": "2026-07-23T12:18:47.701907",
+            "scanned_at": "2026-07-23T12:19:00.982388",
+            "is_active": true
+        },
+        "61f4d83b-8333-4699-88c2-8421a87dc55a": {
+            "token": "61f4d83b-8333-4699-88c2-8421a87dc55a",
+            "client_name": "codigix infotech",
+            "client_industry": "digital marketing",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "1,3",
+            "created_at": "2026-07-23T16:07:20.612395",
+            "scanned_at": "2026-07-23T16:07:42.341505",
+            "is_active": true
+        },
+        "d5e36a2b-bb9c-4785-a07f-bc5b63dd0002": {
+            "token": "d5e36a2b-bb9c-4785-a07f-bc5b63dd0002",
+            "client_name": "codigix infotech ",
+            "client_industry": "digital marketing",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "1,3",
+            "created_at": "2026-07-23T16:11:51.049419",
+            "scanned_at": "2026-07-23T16:12:07.028238",
+            "is_active": true
+        },
+        "ef5a0f8f-2716-4bff-9cd2-a9c792ac2388": {
+            "token": "ef5a0f8f-2716-4bff-9cd2-a9c792ac2388",
+            "client_name": "codigix infotech",
+            "client_industry": "digital marketing ",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "2",
+            "created_at": "2026-07-23T17:05:56.903837",
+            "scanned_at": null,
+            "is_active": true
+        },
+        "0ccf7a03-22e7-49ec-9ca4-bdd67d5ee3f3": {
+            "token": "0ccf7a03-22e7-49ec-9ca4-bdd67d5ee3f3",
+            "client_name": "codigix infotech",
+            "client_industry": "digital marketing ",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "2,6",
+            "phone": "9112706604",
+            "created_at": "2026-07-23T17:08:58.464871",
+            "scanned_at": null,
+            "is_active": true
+        },
+        "6efc0d08-ab16-4f0f-bfc4-69462cc4cd0c": {
+            "token": "6efc0d08-ab16-4f0f-bfc4-69462cc4cd0c",
+            "client_name": "codigix infotech",
+            "client_industry": "digital marketing ",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "2,6",
+            "phone": "9112706604",
+            "created_at": "2026-07-23T17:11:43.445914",
+            "scanned_at": null,
+            "is_active": true
+        },
+        "c5d4b280-eeb3-49ab-8bb3-55301565dd48": {
+            "token": "c5d4b280-eeb3-49ab-8bb3-55301565dd48",
+            "client_name": "codigix infotech",
+            "client_industry": "digital marketing ",
+            "google_place_id": "ChIJreArw1q5wjsRqfAHZXdYqnk",
+            "allowed_services": "4,9",
+            "phone": "9112706604",
+            "created_at": "2026-07-23T17:18:27.507152",
+            "scanned_at": null,
+            "is_active": true
+        }
+    },
+    "reviews": [
+        {
+            "id": 1,
+            "token": "8f0e8161-d635-4725-9baa-fc092e9c179c",
+            "service_id": 1,
+            "rating": "Poor",
+            "email": "",
+            "ai_generated_text": "I was somewhat disappointed with the SEO Optimization provided by codigix infotech . Hoping they can improve their processes in the future.",
+            "created_at": "2026-07-23T11:47:57.045966"
+        },
+        {
+            "id": 2,
+            "token": "8f0e8161-d635-4725-9baa-fc092e9c179c",
+            "service_id": 1,
+            "rating": "Poor",
+            "email": "",
+            "ai_generated_text": "I was somewhat disappointed with the SEO Optimization provided by codigix infotech . Hoping they can improve their processes in the future.",
+            "created_at": "2026-07-23T11:47:57.582846"
+        },
+        {
+            "id": 3,
+            "token": "fbfbf5a5-08b9-4c76-82b0-6920fde4e5e9",
+            "service_id": 1,
+            "rating": "Excellent",
+            "email": "",
+            "ai_generated_text": "If you need SEO Optimization, look no further than codigix infotech. Their expertise and attention to detail are unmatched. I'll definitely be returning for future projects.",
+            "created_at": "2026-07-23T12:16:44.927784"
+        },
+        {
+            "id": 4,
+            "token": "fbfbf5a5-08b9-4c76-82b0-6920fde4e5e9",
+            "service_id": 1,
+            "rating": "Excellent",
+            "email": "",
+            "ai_generated_text": "I had an exceptional experience with codigix infotech for their SEO Optimization. The team was highly professional, delivered top-quality results, and exceeded my expectations. If you're looking for the best service, I highly recommend codigix infotech!",
+            "created_at": "2026-07-23T12:18:32.795037"
+        },
+        {
+            "id": 5,
+            "token": "5333210c-5bcb-4c0c-8a39-63311c354bed",
+            "service_id": 1,
+            "rating": "Excellent",
+            "email": "",
+            "ai_generated_text": "I had an exceptional experience with codigix infotech for their SEO Optimization. The team was highly professional, delivered top-quality results, and exceeded my expectations. If you're looking for the best service, I highly recommend codigix infotech!",
+            "created_at": "2026-07-23T12:19:06.941433"
+        },
+        {
+            "id": 6,
+            "token": "61f4d83b-8333-4699-88c2-8421a87dc55a",
+            "service_id": 1,
+            "rating": "Excellent",
+            "email": "",
+            "ai_generated_text": "I had an exceptional experience with codigix infotech for their SEO Optimization. The team was highly professional, delivered top-quality results, and exceeded my expectations. If you're looking for the best service, I highly recommend codigix infotech!",
+            "created_at": "2026-07-23T16:07:52.862632"
+        },
+        {
+            "id": 7,
+            "token": "d5e36a2b-bb9c-4785-a07f-bc5b63dd0002",
+            "service_id": 1,
+            "rating": "Excellent",
+            "email": "",
+            "ai_generated_text": "If you need SEO Optimization, look no further than codigix infotech . Their expertise and attention to detail are unmatched. I'll definitely be returning for future projects.",
+            "created_at": "2026-07-23T16:12:16.075484"
+        }
+    ],
+    "analytics": [
+        {
+            "event_type": "scan",
+            "token": "8f0e8161-d635-4725-9baa-fc092e9c179c",
+            "timestamp": "2026-07-23T11:47:42.826926"
+        },
+        {
+            "event_type": "submission",
+            "token": "8f0e8161-d635-4725-9baa-fc092e9c179c",
+            "timestamp": "2026-07-23T11:47:57.045993"
+        },
+        {
+            "event_type": "submission",
+            "token": "8f0e8161-d635-4725-9baa-fc092e9c179c",
+            "timestamp": "2026-07-23T11:47:57.582883"
+        },
+        {
+            "event_type": "scan",
+            "token": "fbfbf5a5-08b9-4c76-82b0-6920fde4e5e9",
+            "timestamp": "2026-07-23T12:16:34.051033"
+        },
+        {
+            "event_type": "submission",
+            "token": "fbfbf5a5-08b9-4c76-82b0-6920fde4e5e9",
+            "timestamp": "2026-07-23T12:16:44.927809"
+        },
+        {
+            "event_type": "scan",
+            "token": "fbfbf5a5-08b9-4c76-82b0-6920fde4e5e9",
+            "timestamp": "2026-07-23T12:18:26.523644"
+        },
+        {
+            "event_type": "submission",
+            "token": "fbfbf5a5-08b9-4c76-82b0-6920fde4e5e9",
+            "timestamp": "2026-07-23T12:18:32.795077"
+        },
+        {
+            "event_type": "scan",
+            "token": "5333210c-5bcb-4c0c-8a39-63311c354bed",
+            "timestamp": "2026-07-23T12:19:00.982414"
+        },
+        {
+            "event_type": "submission",
+            "token": "5333210c-5bcb-4c0c-8a39-63311c354bed",
+            "timestamp": "2026-07-23T12:19:06.941472"
+        },
+        {
+            "event_type": "scan",
+            "token": "61f4d83b-8333-4699-88c2-8421a87dc55a",
+            "timestamp": "2026-07-23T16:07:42.341525"
+        },
+        {
+            "event_type": "submission",
+            "token": "61f4d83b-8333-4699-88c2-8421a87dc55a",
+            "timestamp": "2026-07-23T16:07:52.862664"
+        },
+        {
+            "event_type": "scan",
+            "token": "d5e36a2b-bb9c-4785-a07f-bc5b63dd0002",
+            "timestamp": "2026-07-23T16:12:07.028263"
+        },
+        {
+            "event_type": "submission",
+            "token": "d5e36a2b-bb9c-4785-a07f-bc5b63dd0002",
+            "timestamp": "2026-07-23T16:12:16.075526"
+        }
+    ],
+    "settings": {}
+}

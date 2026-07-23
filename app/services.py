@@ -4,8 +4,6 @@ import os
 import datetime
 import uuid
 import math
-from sqlalchemy.orm import Session
-from . import models, schemas
 from typing import Optional
 import openai
 from dotenv import load_dotenv
@@ -19,7 +17,7 @@ from PIL import Image, ImageDraw, ImageFont
 class QRService:
     @staticmethod
     def generate_qr_img(token: str, base_url: str):
-        url = f"{base_url}/r/{token}"
+        url = f"{base_url}/?token={token}"
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_H, # Higher correction for cards
@@ -28,7 +26,7 @@ class QRService:
         )
         qr.add_data(url)
         qr.make(fit=True)
-        return qr.make_image(fill_color="#00358E", back_color="white").convert("RGB") # Matching blue
+        return qr.make_image(fill_color="#0d1b2a", back_color="white").convert("RGB") # Cohesive luxury blue
 
     @staticmethod
     def generate_qr_bytes(token: str, base_url: str) -> bytes:
@@ -51,97 +49,131 @@ class CardService:
         draw.polygon(points, fill=fill)
 
     @staticmethod
-    def generate_card(token: str, base_url: str, company_name: str = "Codigix Infotech", industry: str = "Marketing Agency", phone: str = "7066556768") -> bytes:
+    def generate_card(token: str, base_url: str, company_name: str = "Your Business", industry: str = "Your Industry", phone: str = "0000000000") -> bytes:
         # High resolution settings for print quality
         width, height = 1000, 1500
-        bg_color = (255, 255, 255)
-        blue_primary = (0, 48, 120) 
-        blue_light = (245, 248, 255)
-        grey_text = (80, 80, 80)
-        gold = (255, 193, 7)
+        
+        # Elegant Minimalist Color Palette
+        bg_light = (248, 250, 252)      # Ultra-light slate grey background
+        navy_primary = (15, 23, 42)     # Deep Navy Slate (Tailwind slate-900)
+        gold = (212, 175, 55)           # Metallic Gold
+        white = (255, 255, 255)
+        grey_text = (100, 116, 139)     # Cool grey (Tailwind slate-500)
         
         # Create canvas
-        card = Image.new("RGB", (width, height), bg_color)
+        card = Image.new("RGB", (width, height), bg_light)
         draw = ImageDraw.Draw(card)
         
-        # 1. Subtle Background Elements
-        # Bottom Blue Gradient/Shape
-        draw.rectangle([0, 1200, width, height], fill=blue_primary)
-        # Soft curve at the top of the blue section
-        draw.ellipse([-200, 1100, width+200, 1350], fill=blue_primary)
+        # 1. Elegant Border Framing
+        # Outer gold border with 24px inner padding
+        border_padding = 24
+        draw.rectangle(
+            [border_padding, border_padding, width - border_padding, height - border_padding], 
+            outline=gold, 
+            width=3
+        )
+        
+        # Decorative corners (brackets)
+        bracket_len = 50
+        # Top-Left Bracket
+        draw.line([border_padding, border_padding, border_padding + bracket_len, border_padding], fill=navy_primary, width=8)
+        draw.line([border_padding, border_padding, border_padding, border_padding + bracket_len], fill=navy_primary, width=8)
+        # Top-Right Bracket
+        draw.line([width - border_padding, border_padding, width - border_padding - bracket_len, border_padding], fill=navy_primary, width=8)
+        draw.line([width - border_padding, border_padding, width - border_padding, border_padding + bracket_len], fill=navy_primary, width=8)
+        # Bottom-Left Bracket
+        draw.line([border_padding, height - border_padding, border_padding + bracket_len, height - border_padding], fill=navy_primary, width=8)
+        draw.line([border_padding, height - border_padding, border_padding, height - border_padding - bracket_len], fill=navy_primary, width=8)
+        # Bottom-Right Bracket
+        draw.line([width - border_padding, height - border_padding, width - border_padding - bracket_len, height - border_padding], fill=navy_primary, width=8)
+        draw.line([width - border_padding, height - border_padding, width - border_padding, height - border_padding - bracket_len], fill=navy_primary, width=8)
         
         # 2. Fonts
         try:
-            # Using standard system fonts usually available on Windows
             font_path_bold = "arialbd.ttf"
             font_path_reg = "arial.ttf"
             
-            title_font_size = 72
+            title_font_size = 64
             title_font = ImageFont.truetype(font_path_bold, title_font_size)
             
-            # Dynamically reduce title font size if it exceeds the card width
+            # Dynamically reduce title font if too long
             while True:
                 bbox = draw.textbbox((0, 0), company_name, font=title_font)
                 text_width = bbox[2] - bbox[0]
-                if text_width <= width - 80 or title_font_size <= 24:
+                if text_width <= width - 180 or title_font_size <= 24:
                     break
                 title_font_size -= 4
                 title_font = ImageFont.truetype(font_path_bold, title_font_size)
 
-            subtitle_font = ImageFont.truetype(font_path_reg, 42)
-            header_font = ImageFont.truetype(font_path_bold, 64)
-            footer_text_font = ImageFont.truetype(font_path_reg, 42)
-            phone_font = ImageFont.truetype(font_path_bold, 58)
+            subtitle_font = ImageFont.truetype(font_path_reg, 32)
+            header_font = ImageFont.truetype(font_path_bold, 48)
+            footer_text_font = ImageFont.truetype(font_path_reg, 36)
+            phone_font = ImageFont.truetype(font_path_bold, 40)
         except:
             title_font = subtitle_font = header_font = footer_text_font = phone_font = ImageFont.load_default()
 
-        # 3. Header Section
-        draw.text((width//2, 180), company_name, fill=blue_primary, font=title_font, anchor="mm")
-        draw.text((width//2, 260), f"- {industry}", fill=grey_text, font=subtitle_font, anchor="mm")
+        # 3. Header Section (Centered)
+        draw.text((width//2, 160), company_name.upper(), fill=navy_primary, font=title_font, anchor="mm")
+        draw.text((width//2, 220), industry.upper(), fill=grey_text, font=subtitle_font, anchor="mm")
+        
+        # 3.5. Gold Stars
+        star_y = 290
+        star_size = 25
+        star_spacing = 60
+        for i in range(-2, 3):
+            CardService._draw_star(draw, width//2 + i * star_spacing, star_y, star_size, gold)
         
         # 4. CTA Section
-        draw.text((width//2, 400), "We Value Your Feedback", fill=blue_primary, font=header_font, anchor="mm")
-        draw.text((width//2, 480), "Scan the QR code to share your experience", fill=grey_text, font=subtitle_font, anchor="mm")
+        draw.text((width//2, 380), "LEAVE US A GOOGLE REVIEW", fill=navy_primary, font=header_font, anchor="mm")
+        draw.text((width//2, 440), "Scan the QR code below to share your experience", fill=grey_text, font=subtitle_font, anchor="mm")
         
-        # 5. QR Code Area (White Rounded Box with Shadow Effect)
-        qr_box_size = 650
+        # 5. QR Code Area (White Rounded Card with drop shadow)
+        qr_box_size = 600
         qr_box_x = (width - qr_box_size) // 2
-        qr_box_y = 570
+        qr_box_y = 510
         
-        # Draw soft shadow (simulated with grey rectangles)
+        # Smooth multi-layered drop shadow
         for i in range(1, 15):
-            draw.rounded_rectangle([qr_box_x-i, qr_box_y-i, qr_box_x+qr_box_size+i, qr_box_y+qr_box_size+i], radius=60, outline=(220+i, 220+i, 220+i), width=2)
+            draw.rounded_rectangle(
+                [qr_box_x-i, qr_box_y-i, qr_box_x+qr_box_size+i, qr_box_y+qr_box_size+i], 
+                radius=32, 
+                outline=(230-i, 234-i, 240-i), 
+                width=1
+            )
 
-        draw.rounded_rectangle([qr_box_x, qr_box_y, qr_box_x+qr_box_size, qr_box_y+qr_box_size], radius=60, fill="white")
+        # White main container with double gold outline
+        draw.rounded_rectangle([qr_box_x, qr_box_y, qr_box_x+qr_box_size, qr_box_y+qr_box_size], radius=32, fill="white", outline=gold, width=3)
         
-        # QR Code itself
+        # QR Code itself (drawn in cohesive navy primary color)
         qr_img = QRService.generate_qr_img(token, base_url)
-        # Use a larger size for the QR so it feels better aligned and balanced
-        qr_size = 560
-        # Use Image.LANCZOS for high quality down/upsampling if available, fallback to BICUBIC
+        qr_size = 520
         resample_filter = getattr(Image, 'LANCZOS', getattr(Image, 'BICUBIC', 3))
         qr_img = qr_img.resize((qr_size, qr_size), resample_filter)
         card.paste(qr_img, (qr_box_x + (qr_box_size - qr_size)//2, qr_box_y + (qr_box_size - qr_size)//2))
         
         # 6. Bottom Message
-        draw.text((width//2, 1320), "Your feedback helps us improve", fill="white", font=footer_text_font, anchor="mm")
+        draw.text((width//2, 1180), "Thank you for helping us grow", fill=navy_primary, font=footer_text_font, anchor="mm")
         
-        # 7. Contact Pill
-        pill_w, pill_h = 580, 100
+        # 7. Sleek Contrast Contact Pill (Deep Navy base with Gold accents)
+        pill_w, pill_h = 480, 80
         pill_x = (width - pill_w) // 2
-        pill_y = 1380
-        draw.rounded_rectangle([pill_x, pill_y, pill_x+pill_w, pill_y+pill_h], radius=50, fill=gold)
+        pill_y = 1240
+        draw.rounded_rectangle([pill_x, pill_y, pill_x+pill_w, pill_y+pill_h], radius=40, fill=navy_primary, outline=gold, width=3)
         
-        # Phone Icon (Simple Circle + Dot)
-        icon_cx, icon_cy = pill_x + 60, pill_y + 50
-        draw.ellipse([icon_cx-25, icon_cy-25, icon_cx+25, icon_cy+25], fill=blue_primary)
-        # Handset symbol (simulated with lines)
-        draw.arc([icon_cx-12, icon_cy-12, icon_cx+12, icon_cy+12], 0, 180, fill="white", width=4)
+        # Gold Phone Icon Circle
+        icon_cx, icon_cy = pill_x + 50, pill_y + 40
+        draw.ellipse([icon_cx-18, icon_cy-18, icon_cx+18, icon_cy+18], fill=gold)
         
-        draw.text((width//2 + 20, pill_y + 50), phone, fill=blue_primary, font=phone_font, anchor="mm")
+        # Inside handset receiver (in navy)
+        draw.arc([icon_cx-10, icon_cy-10, icon_cx+10, icon_cy+8], 40, 140, fill=navy_primary, width=3)
+        draw.ellipse([icon_cx-10, icon_cy-2, icon_cx-4, icon_cy+4], fill=navy_primary)
+        draw.ellipse([icon_cx+4, icon_cy-2, icon_cx+10, icon_cy+4], fill=navy_primary)
+        
+        # Phone text in shining Gold
+        draw.text((width//2 + 25, pill_y + 40), phone, fill=gold, font=phone_font, anchor="mm")
 
-        # 8. Border around the whole card (optional but looks clean)
-        draw.rectangle([0, 0, width-1, height-1], outline=(240, 240, 240), width=4)
+        # 8. Footer decoration
+        draw.text((width//2, 1370), "Your feedback is strictly internal & appreciated", fill=grey_text, font=subtitle_font, anchor="mm")
 
         buf = io.BytesIO()
         card.save(buf, format="PNG")
@@ -153,7 +185,7 @@ class AIService:
         import random
         # service_name can be multiple services separated by commas
         services_desc = service_name if "," not in service_name else f"various services including {service_name}"
-        b_name = business_name if business_name and business_name != "the business" else "Codigix Infotech"
+        b_name = business_name if business_name and business_name != "the business" else "the business"
         
         if rating in ["Excellent", "Good"]:
             prompt = (
@@ -219,60 +251,3 @@ class AIService:
             print(f"OpenAI Error: {e}")
             return selected_fallback
 
-class DBService:
-    @staticmethod
-    def create_review_request(db: Session, client_name: Optional[str] = None, client_industry: Optional[str] = None, google_place_id: Optional[str] = None, allowed_services: Optional[str] = None):
-        request = models.ReviewRequest(
-            client_name=client_name, 
-            client_industry=client_industry,
-            google_place_id=google_place_id,
-            allowed_services=allowed_services
-        )
-        db.add(request)
-        db.commit()
-        db.refresh(request)
-        return request
-
-    @staticmethod
-    def get_request_by_token(db: Session, token: str):
-        return db.query(models.ReviewRequest).filter(models.ReviewRequest.token == token).first()
-
-    @staticmethod
-    def validate_email_submission(db: Session, email: str) -> bool:
-        if not email:
-            return True
-        thirty_days_ago = datetime.datetime.utcnow() - datetime.timedelta(days=30)
-        recent_review = db.query(models.Review).filter(
-            models.Review.email == email,
-            models.Review.created_at >= thirty_days_ago
-        ).first()
-        return recent_review is None
-
-    @staticmethod
-    def submit_review(db: Session, request_id: int, service_id: int, rating: str, email: Optional[str], ai_text: str):
-        review = models.Review(
-            request_id=request_id,
-            service_id=service_id,
-            rating=rating,
-            email=email,
-            ai_generated_text=ai_text
-        )
-        db.add(review)
-        
-        # Log analytics
-        analytic = models.Analytic(event_type="submission", request_id=request_id)
-        db.add(analytic)
-        
-        db.commit()
-        db.refresh(review)
-        return review
-
-    @staticmethod
-    def log_scan(db: Session, request_id: int):
-        request = db.query(models.ReviewRequest).filter(models.ReviewRequest.id == request_id).first()
-        if request and not request.scanned_at:
-            request.scanned_at = datetime.datetime.utcnow()
-        
-        analytic = models.Analytic(event_type="scan", request_id=request_id)
-        db.add(analytic)
-        db.commit()
