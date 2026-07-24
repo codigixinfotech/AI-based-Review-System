@@ -160,7 +160,8 @@ def page_dashboard():
                 with st.container(border=True):
                     st.markdown(f"**{r['rating']} - {r['service_name']}**")
                     st.markdown(f"*{r['ai_generated_text']}*")
-                    st.caption(f"{r['created_at']} {f' | {r.get('email', '')}' if r.get('email') else ''}")
+                    email_str = f" | {r['email']}" if r.get('email') else ""
+                    st.caption(f"{r['created_at']}{email_str}")
 
 def page_generate_qr():
     st.title("✨ Generate Dynamic Review QR")
