@@ -1,6 +1,12 @@
 import streamlit as st
 import datetime
 import urllib.parse
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
 from datastore import db
 from app.services import QRService, CardService, AIService
 
@@ -201,9 +207,14 @@ def page_generate_qr():
                 req = db.create_review_request(client_name, client_industry, place_id, allowed_ids, phone=phone_num)
                 
                 import socket
-                hostname = socket.gethostname()
-                local_ip = socket.gethostbyname(hostname)
-                base_url = f"http://{local_ip}:8501"
+                import os
+                
+                # Check for BASE_URL in environment (useful for VPS subdomain deployment)
+                base_url = os.getenv("BASE_URL")
+                if not base_url:
+                    hostname = socket.gethostname()
+                    local_ip = socket.gethostbyname(hostname)
+                    base_url = f"http://{local_ip}:8501"
                 
                 st.success("QR Generated Successfully!")
                 url = f"{base_url}/?token={req['token']}"
