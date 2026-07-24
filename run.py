@@ -14,9 +14,13 @@ if 'venv' not in sys.executable.lower():
         print("Error: Virtual environment not found.")
         sys.exit(1)
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from streamlit.web import cli as stcli
 
 if __name__ == '__main__':
-    # Equivalent to running: streamlit run app_streamlit.py --server.address=0.0.0.0
-    sys.argv = ["streamlit", "run", "app_streamlit.py", "--server.address", "0.0.0.0"]
+    port = os.getenv("PORT", "8501")
+    # Equivalent to running: streamlit run app_streamlit.py --server.address=0.0.0.0 --server.port=<port>
+    sys.argv = ["streamlit", "run", "app_streamlit.py", "--server.address", "0.0.0.0", "--server.port", port]
     sys.exit(stcli.main())

@@ -215,7 +215,8 @@ def page_generate_qr():
                 if not base_url:
                     hostname = socket.gethostname()
                     local_ip = socket.gethostbyname(hostname)
-                    base_url = f"http://{local_ip}:8501"
+                    port = os.getenv("PORT", "8501")
+                    base_url = f"http://{local_ip}:{port}"
                 
                 st.success("QR Generated Successfully!")
                 url = f"{base_url}/?token={req['token']}"
