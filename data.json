@@ -162,6 +162,17 @@
             "created_at": "2026-07-23T17:18:27.507152",
             "scanned_at": null,
             "is_active": true
+        },
+        "86e2a2c4-cc21-46d3-98a8-a5340e05e9c7": {
+            "token": "86e2a2c4-cc21-46d3-98a8-a5340e05e9c7",
+            "client_name": "ds",
+            "client_industry": "sds",
+            "google_place_id": "asas",
+            "allowed_services": "3",
+            "phone": "0000000000",
+            "created_at": "2026-07-24T10:16:55.680509",
+            "scanned_at": null,
+            "is_active": true
         }
     },
     "reviews": [

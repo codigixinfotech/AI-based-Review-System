@@ -88,27 +88,54 @@ class CardService:
         draw.line([width - border_padding, height - border_padding, width - border_padding - bracket_len, height - border_padding], fill=navy_primary, width=8)
         draw.line([width - border_padding, height - border_padding, width - border_padding, height - border_padding - bracket_len], fill=navy_primary, width=8)
         
-        # 2. Fonts
-        try:
-            font_path_bold = "arialbd.ttf"
-            font_path_reg = "arial.ttf"
-            
-            title_font_size = 64
-            title_font = ImageFont.truetype(font_path_bold, title_font_size)
-            
-            # Dynamically reduce title font if too long
-            while True:
-                bbox = draw.textbbox((0, 0), company_name, font=title_font)
-                text_width = bbox[2] - bbox[0]
-                if text_width <= width - 180 or title_font_size <= 24:
-                    break
-                title_font_size -= 4
-                title_font = ImageFont.truetype(font_path_bold, title_font_size)
+        # 2. Robust Font Loading with absolute path searches
+        import os
+        def get_system_font(names):
+            search_dirs = []
+            if os.name == 'nt':
+                windir = os.environ.get('WINDIR', 'C:\\Windows')
+                search_dirs.append(os.path.join(windir, 'Fonts'))
+            else:
+                search_dirs.extend([
+                    "/usr/share/fonts/truetype/dejavu",
+                    "/usr/share/fonts/truetype",
+                    "/usr/share/fonts",
+                    "/System/Library/Fonts",
+                    "/Library/Fonts"
+                ])
+            for name in names:
+                if os.path.exists(name):
+                    return name
+                for d in search_dirs:
+                    full_path = os.path.join(d, name)
+                    if os.path.exists(full_path):
+                        return full_path
+            return None
 
-            subtitle_font = ImageFont.truetype(font_path_reg, 32)
-            header_font = ImageFont.truetype(font_path_bold, 48)
-            footer_text_font = ImageFont.truetype(font_path_reg, 36)
-            phone_font = ImageFont.truetype(font_path_bold, 40)
+        font_path_bold = get_system_font(["arialbd.ttf", "Arial Bold.ttf", "DejaVuSans-Bold.ttf"])
+        font_path_reg = get_system_font(["arial.ttf", "Arial.ttf", "DejaVuSans.ttf"])
+
+        try:
+            if font_path_bold and font_path_reg:
+                title_font_size = 64
+                title_font = ImageFont.truetype(font_path_bold, title_font_size)
+                
+                # Dynamically reduce title font if too long
+                while True:
+                    bbox = draw.textbbox((0, 0), company_name, font=title_font)
+                    text_width = bbox[2] - bbox[0]
+                    if text_width <= width - 180 or title_font_size <= 24:
+                        break
+                    title_font_size -= 4
+                    title_font = ImageFont.truetype(font_path_bold, title_font_size)
+
+                subtitle_font = ImageFont.truetype(font_path_reg, 32)
+                header_font = ImageFont.truetype(font_path_bold, 48)
+                footer_text_font = ImageFont.truetype(font_path_reg, 36)
+                phone_font = ImageFont.truetype(font_path_bold, 40)
+            else:
+                # Force fallback to default if font files are somehow missing
+                title_font = subtitle_font = header_font = footer_text_font = phone_font = ImageFont.load_default()
         except:
             title_font = subtitle_font = header_font = footer_text_font = phone_font = ImageFont.load_default()
 
