@@ -4,3 +4,6 @@ backgroundColor = "#f8f9fc"
 secondaryBackgroundColor = "#ffffff"
 textColor = "#1a202c"
 font = "sans serif"
+
+[client]
+showDeployButton = false
