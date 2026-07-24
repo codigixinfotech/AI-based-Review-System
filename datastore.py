@@ -12,8 +12,13 @@ class DataStore:
         self.init_db()
 
     def get_connection(self):
+        try:
+            db_port = int(os.getenv("DB_PORT", "3306"))
+        except ValueError:
+            db_port = 3306
         return pymysql.connect(
             host=os.getenv("DB_HOST", "localhost"),
+            port=db_port,
             user=os.getenv("DB_USER", "root"),
             password=os.getenv("DB_PASSWORD", "root"),
             database=os.getenv("DB_NAME", "review_qr_db"),
@@ -23,8 +28,13 @@ class DataStore:
     def init_db(self):
         # 1. Connect to MySQL server without database to create the DB if missing
         try:
+            db_port = int(os.getenv("DB_PORT", "3306"))
+        except ValueError:
+            db_port = 3306
+        try:
             conn = pymysql.connect(
                 host=os.getenv("DB_HOST", "localhost"),
+                port=db_port,
                 user=os.getenv("DB_USER", "root"),
                 password=os.getenv("DB_PASSWORD", "root")
             )
